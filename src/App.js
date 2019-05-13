@@ -48,7 +48,7 @@ function compileData(name, cpf, workload, team) {
   }
   if (team !== []) {
     Object.values(team).map((val, idx) => {
-      let temp = `,"workload":"${val.trim()}"`;
+      let temp = `,"team":"${val.trim()}"`;
       info_team.push(temp);
     });
   }
@@ -225,9 +225,11 @@ class App extends Component {
     let { cpf } = this.state.valueInput;
     let { workload } = this.state.valueInput;
     let { team } = this.state.valueInput;
+    alert(Object.keys(team))
     let info_json = compileData(name, cpf, workload, team);
-    // var imageWidth;
-    // var imageHeight;
+    alert(info_json)
+    var imageWidth;
+    var imageHeight;
     await getWidthHeightImage(this.file.current.files[0])
       .then((val) => {
         imageWidth = val.width
@@ -263,7 +265,7 @@ class App extends Component {
         };
 
         // axios.post("https://api-certify.herokuapp.com/", formData, configAxios)
-        axios.post("https://api-certify.herokuapp.com/", formData, configAxios)
+        axios.post("http://localhost:3000/", formData, configAxios)
           .then((result) => {
             var url = window.URL || window.webkitURL;
             let data = new Blob([result.data], { type: 'application/zip' });
