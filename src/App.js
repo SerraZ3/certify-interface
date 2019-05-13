@@ -13,10 +13,11 @@ import M from "materialize-css";
 import certifyModel from './assets/certificado_modelo.png';
 const axios = require("axios");
 
-function compileData(name, cpf, workload) {
+function compileData(name, cpf, workload, team) {
   let info_name = [];
   let info_cpf = [];
   let info_work = [];
+  let info_team = [];
   let info_json = [];
   let returnVal = true;
   let err = '';
@@ -45,6 +46,12 @@ function compileData(name, cpf, workload) {
       info_work.push(temp);
     });
   }
+  if (team !== []) {
+    Object.values(team).map((val, idx) => {
+      let temp = `,"workload":"${val.trim()}"`;
+      info_team.push(temp);
+    });
+  }
   for (var i in info_name) {
     let temp = `${info_name[i]}`;
     if (info_cpf[i] !== undefined) {
@@ -52,6 +59,9 @@ function compileData(name, cpf, workload) {
     }
     if (info_work[i] !== undefined) {
       temp += `${info_work[i]}`;
+    }
+    if (info_team[i] !== undefined) {
+      temp += `${info_team[i]}`;
     }
     temp += "}";
     info_json.push(temp);
@@ -214,9 +224,10 @@ class App extends Component {
     let { name } = this.state.valueInput;
     let { cpf } = this.state.valueInput;
     let { workload } = this.state.valueInput;
-    let info_json = compileData(name, cpf, workload);
-    var imageWidth;
-    var imageHeight;
+    let { team } = this.state.valueInput;
+    let info_json = compileData(name, cpf, workload, team);
+    // var imageWidth;
+    // var imageHeight;
     await getWidthHeightImage(this.file.current.files[0])
       .then((val) => {
         imageWidth = val.width
