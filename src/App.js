@@ -265,7 +265,7 @@ class App extends Component {
         };
 
         // axios.post("https://api-certify.herokuapp.com/", formData, configAxios)
-        axios.post("http://localhost:3000/", formData, configAxios)
+        axios.post("https://api-certify.herokuapp.com/", formData, configAxios)
           .then((result) => {
             var url = window.URL || window.webkitURL;
             let data = new Blob([result.data], { type: 'application/zip' });
